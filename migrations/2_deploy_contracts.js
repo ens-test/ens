@@ -64,7 +64,9 @@ function deployAuctionRegistrar(deployer, tld) {
     });
 }
 
-module.exports = function(deployer, network) {
+module.exports = function(deployer, network, accounts) {
+
+  console.log('Available accounts: ' + accounts);
   var tld = 'eth';
 
   if (network === 'dev.fifs') {
