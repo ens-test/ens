@@ -17,15 +17,7 @@ module.exports = {
       provider: new PrivateKeyProvider(
         process.env.ETHEREUM_PRIVATE_KEY.replace(/^0x/i, ""),
         process.env.ETHEREUM_HTTP),
-      from: process.env.ETHEREUM_PUBLIC_KEY,
-      network_id: "*" // Match any network id
-    },
-    'env.fifs.doesntwork': {
-      provider: function() {
-        var endpoint = process.env.ETHEREUM_HTTP;
-        return new Web3.providers.HttpProvider(endpoint);
-      },
-      from: process.env.ETHEREUM_PUBLIC_KEY,
+      // from: process.env.ETHEREUM_PUBLIC_KEY,
       network_id: "*" // Match any network id
     }
   }
