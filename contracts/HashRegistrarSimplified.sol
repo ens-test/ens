@@ -27,7 +27,7 @@ contract Registrar {
 
     mapping (bytes32 => Entry) _entries;
     mapping (address => mapping (bytes32 => Deed)) public sealedBids;
-    
+
     enum Mode { Open, Auction, Owned, Forbidden, Reveal, NotYetAvailable }
 
     uint32 constant totalAuctionLength = 5 days;
@@ -211,7 +211,7 @@ contract Registrar {
      */
     function cancelBid(address bidder, bytes32 seal) public {
         Deed bid = sealedBids[bidder][seal];
-        
+
         // If a sole bidder does not `unsealBid` in time, they have a few more days
         // where they can call `startAuction` (again) and then `unsealBid` during
         // the revealPeriod to get back their bid value.
@@ -234,7 +234,7 @@ contract Registrar {
      */
     function finalizeAuction(bytes32 _hash) public onlyOwner(_hash) {
         Entry storage h = _entries[_hash];
-        
+
         // Handles the case when there's only a single bidder (h.value is zero)
         h.value =  max(h.value, minPrice);
         h.deed.setBalance(h.value, true);
@@ -275,14 +275,14 @@ contract Registrar {
 
         _tryEraseSingleNode(_hash);
         deedContract.closeDeed(1000);
-        HashReleased(_hash, h.value);        
+        HashReleased(_hash, h.value);
     }
 
     /**
      * @dev Submit a name 6 characters long or less. If it has been registered,
-     *      the submitter will earn 50% of the deed value. 
-     * 
-     * We are purposefully handicapping the simplified registrar as a way 
+     *      the submitter will earn 50% of the deed value.
+     *
+     * We are purposefully handicapping the simplified registrar as a way
      * to force it into being restructured in a few years.
      *
      * @param unhashedName An invalid name to search for in the registry.
@@ -317,7 +317,7 @@ contract Registrar {
      *      the owner and resolver fields on 'foo.bar.eth' and 'bar.eth' will all be cleared.
      *
      * @param labels A series of label hashes identifying the name to zero out, rooted at the
-     *        registrar's root. Must contain at least one element. For instance, to zero 
+     *        registrar's root. Must contain at least one element. For instance, to zero
      *        'foo.bar.eth' on a registrar that owns '.eth', pass an array containing
      *        [keccak256('foo'), keccak256('bar')].
      */
@@ -418,7 +418,10 @@ contract Registrar {
      * @param _hash The hash to start an auction on
      */
     function getAllowedTime(bytes32 _hash) public view returns (uint) {
-        return registryStarted + ((launchLength * (uint(_hash) >> 128)) >> 128);
+        // TODO(zchn): !!! change it back to the original.
+        return registryStarted + 0;
+        // original:
+        // return registryStarted + ((launchLength * (uint(_hash) >> 128)) >> 128);
         // Right shift operator: a >> b == a / 2**b
     }
 
