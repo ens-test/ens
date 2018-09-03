@@ -19,6 +19,13 @@ module.exports = {
         process.env.ETHEREUM_HTTP),
       // from: process.env.ETHEREUM_PUBLIC_KEY,
       network_id: "*" // Match any network id
+    },
+    'env.auction': {
+      provider: new PrivateKeyProvider(
+        process.env.ETHEREUM_PRIVATE_KEY.replace(/^0x/i, ""),
+        process.env.ETHEREUM_HTTP),
+      // from: process.env.ETHEREUM_PUBLIC_KEY,
+      network_id: "*" // Match any network id
     }
   }
 };
